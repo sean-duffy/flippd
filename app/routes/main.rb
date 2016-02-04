@@ -3,17 +3,15 @@ require 'json'
 require 'sinatra/base'
 require './app/helpers/badge_utils'
 require './app/helpers/phase_utils'
+require './app/helpers/general_utils'
 
 class Flippd < Sinatra::Application
-    helpers BadgeUtils, PhaseUtils
+    helpers BadgeUtils, PhaseUtils, GeneralUtils
 
     before do
         @session = session
-        if session.has_key?("user_id")
-            @user_id = session["user_id"]
-        else
-            @user_id = nil
-        end
+        @user_id = get_user_id(session)
+
         # Load in the configuration (at the URL in the project's .env file)
         @json_loc = ENV['CONFIG_URL'] + "module.json"
         @module = JSON.load(open(@json_loc))
@@ -63,9 +61,8 @@ class Flippd < Sinatra::Application
 		@video_watched = false
 		
 		# Check if a user is logged in
-		if session.has_key?("user_id")
-	  		user_id = session['user_id']
-	  		
+        user_id = get_user_id(session)
+		if user_id != nil	  		
 	  		# If a user is logged in we will check if they have watched this video before
 	  		matches = VideosWatched.first(:user_id => user_id, :json_id => @video["id"])
 		    if matches != nil
@@ -100,8 +97,8 @@ class Flippd < Sinatra::Application
 		erb :quiz
 	end
 
-  get '/notification_alert' do
-  	erb :notification_alert, :layout => false
-  end
+    get '/notification_alert' do
+      	erb :notification_alert, :layout => false
+    end
     
 end

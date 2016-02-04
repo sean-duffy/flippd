@@ -3,9 +3,10 @@ require 'json'
 require 'sinatra/base'
 require './app/helpers/badge_utils'
 require './app/helpers/phase_utils'
+require './app/helpers/general_utils'
 
 class Flippd < Sinatra::Application
-	helpers BadgeUtils, PhaseUtils
+	helpers BadgeUtils, PhaseUtils, GeneralUtils
 
 	post '/quizzes/:pos' do
 		pos = params["pos"].to_i
@@ -23,18 +24,17 @@ class Flippd < Sinatra::Application
 		        @score += 1
 		    end
 		end
-
-		if session.has_key?("user_id")
-		    user_id = session['user_id']
-		    user = User.get(session['user_id'])
+		
+		user_id = get_user_id(session)
+		if user_id == nil
+		    user = User.get(user_id)
 		    result = QuizResult.create(:json_id => @quiz["id"], :date => Time.now, :mark => @score, :user => user)
 		    rewards = BadgeUtils.get_triggered_badges(@quiz["id"], @badges)
 		    rewards.each do |badge|
 		        if BadgeUtils.check_requirements(user_id, badge)
 		            BadgeUtils.award_badge(badge, user)
 
-		            # Display a notification
-		            flash[:notification]["#{badge["id"]}"] = {"title" => "You earned a new badge!", "text" => "Well done, you just earned the '#{badge["title"]}' badge"}
+					display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
 		        end
 		    end
 		end
@@ -47,9 +47,9 @@ class Flippd < Sinatra::Application
 	  	badges_earnt = 0
 
 	  	# Check that the user is logged in
-	  	if session.has_key?("user_id")
-	  		user_id = session['user_id']
-	  		user = User.get(session['user_id'])
+		user_id = get_user_id(session)
+		if user_id == nil
+		    user = User.get(user_id)
 
 	  		# Mark the video as watched in the database (if it isn't already)
 	  		matches = VideosWatched.first(:user_id => user_id, :json_id => video_id)
@@ -66,8 +66,8 @@ class Flippd < Sinatra::Application
 		        	if BadgeUtils.check_requirements(user_id, badge)
 		            	BadgeUtils.award_badge(badge, user)
 		            	badges_earnt += 1
-		                # Display a notification
-		                flash[:notification]["#{badge["id"]}"] = {"title" => "You earned a new badge!", "text" => "Well done, you just earned the '#{badge["title"]}' badge"}
+					
+						display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
 		        	end
 		        end
 		    end
