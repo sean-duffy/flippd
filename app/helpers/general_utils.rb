@@ -14,6 +14,7 @@ module GeneralUtils
 	end
 
 	def is_user_logged_in(user_id)
+		# Returns true if the user_id is not nil, else false
 		if user_id == nil
 			false
 		else
@@ -22,7 +23,14 @@ module GeneralUtils
 	end
 
 	def display_notification(name, title, text)
-		# Displays a flash snotification to the user
+		# Displays a flash notification to the user
 		flash[:notification][name] = {"title" => title, "text" => text}
+	end
+
+	def get_previous_and_next_page_links(@phases, pos)
+		# Returns the link to the previous page and the next page, in that order
+		p = get_by_pos(@phases, pos-1)
+		n = get_by_pos(@phases, pos+1)
+		return p, n
 	end
 end

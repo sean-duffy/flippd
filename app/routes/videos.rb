@@ -23,9 +23,7 @@ class Flippd < Sinatra::Application
       		end
     	end
 
-		# Get the next and previous video/quiz to link to
-		@previous = get_by_pos(@phases, pos-1)
-		@next = get_by_pos(@phases, pos+1)
+		@previous, @next = get_previous_and_next_page_links(@phases, pos)
 
 		# Check if a user is logged in
         user_id = get_user_id(session)

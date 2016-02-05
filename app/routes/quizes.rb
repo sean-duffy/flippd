@@ -22,9 +22,7 @@ class Flippd < Sinatra::Application
       		end
     	end
 
-		# Get the next and previous video/quiz to link to
-		@previous = get_by_pos(@phases, pos-1)
-		@next = get_by_pos(@phases, pos+1)
+		@previous, @next = get_previous_and_next_page_links(@phases, pos)
 
 		pass unless @quiz
 		erb :quiz
@@ -36,9 +34,7 @@ class Flippd < Sinatra::Application
 		@post  = params[:post]
 		@quiz  = get_by_pos(@phases, pos)
 
-		# Get the next and previous video/quiz to link to
-		@previous = get_by_pos(@phases, pos-1)
-		@next = get_by_pos(@phases, pos+1)
+		@previous, @next = get_previous_and_next_page_links(@phases, pos)
 
 		@score = 0
 		@post.each do |question_no, answer|
