@@ -27,10 +27,10 @@ module GeneralUtils
 		flash[:notification][name] = {"title" => title, "text" => text}
 	end
 
-	def get_previous_and_next_page_links(@phases, pos)
+	def get_previous_and_next_page_links(phases, pos)
 		# Returns the link to the previous page and the next page, in that order
-		p = get_by_pos(@phases, pos-1)
-		n = get_by_pos(@phases, pos+1)
+		p = get_by_pos(phases, pos-1)
+		n = get_by_pos(phases, pos+1)
 		return p, n
 	end
 end
