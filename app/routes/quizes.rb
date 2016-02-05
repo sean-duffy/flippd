@@ -48,7 +48,7 @@ class Flippd < Sinatra::Application
 		end
 		
 		user_id = get_user_id(session)
-		if user_id != nil
+		if is_user_logged_in(user_id)
 		    user = User.get(user_id)
 		    result = QuizResult.create(:json_id => @quiz["id"], :date => Time.now, :mark => @score, :user => user)
 		    rewards = BadgeUtils.get_triggered_badges(@quiz["id"], @badges)

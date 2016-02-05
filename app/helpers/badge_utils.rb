@@ -36,7 +36,7 @@ module BadgeUtils
         return false
     end
 
-    def self.get_triggered_badges(page_id, badges)
+    def self.get_potential_triggered_badges(page_id, badges)
         if not self.is_any_trigger(page_id, badges)
             return []
         end
