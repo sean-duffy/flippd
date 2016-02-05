@@ -10,10 +10,11 @@ class Flippd < Sinatra::Application
 
 	get '/quizzes/:pos' do
 		pos = params["pos"].to_i
+
+		#Set the current quiz
 		@phases.each do |phase|
 			phase['topics'].each do |topic|
 				topic['quizzes'].each do |quiz|
-					#Set the current quiz
     				if quiz["pos"] == pos
 						@phase = phase
 						@quiz = quiz
@@ -47,11 +48,11 @@ class Flippd < Sinatra::Application
 		if is_user_logged_in(user_id)
 		    user = User.get(user_id)
 		    result = QuizResult.create(:json_id => @quiz["id"], :date => Time.now, :mark => @score, :user => user)
-		    rewards = BadgeUtils.get_triggered_badges(@quiz["id"], @badges)
-		    rewards.each do |badge|
-		        if BadgeUtils.check_requirements(user_id, badge)
-		            BadgeUtils.award_badge(badge, user)
 
+		    potential_rewards = BadgeUtils.get_potential_triggered_badges(@quiz["id"], @badges)
+		    potential_rewards.each do |badge|
+		        if BadgeUtils.are_requirements_met(user_id, badge)
+		            BadgeUtils.award_badge(badge, user)
 					display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
 		        end
 		    end

@@ -49,7 +49,7 @@ module BadgeUtils
         return triggered
     end
     
-    def self.check_requirements(user_id, badge)
+    def self.are_requirements_met(user_id, badge)
         if self.has_badge(user_id, badge)
             return false
         end

@@ -15,9 +15,7 @@ class Flippd < Sinatra::Application
         # Load in the configuration (at the URL in the project's .env file)
         @json_loc = ENV['CONFIG_URL'] + "module.json"
         @module = JSON.load(open(@json_loc))
-        # From helpers/phase_utils
         @phases = load_phases(@module)
-        # From helpers/badge_utils
         @badges = BadgeUtils.load_badges(@module)
         
         if !(flash[:notification])

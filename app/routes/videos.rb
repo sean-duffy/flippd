@@ -2,19 +2,19 @@ require 'open-uri'
 require 'json'
 require 'sinatra/base'
 require './app/helpers/badge_utils'
-require './app/helpers/phase_utils'
 require './app/helpers/general_utils'
 require './app/helpers/video_utils'
 
 class Flippd < Sinatra::Application
-	helpers BadgeUtils, PhaseUtils, GeneralUtils, VideoUtils
+	helpers BadgeUtils, GeneralUtils, VideoUtils
 
 	get '/videos/:pos' do
 		pos = params["pos"].to_i
+
+		# Set the current video
     	@phases.each do |phase|
 		    phase['topics'].each do |topic|
 				topic['videos'].each do |video|
-          			# Set the current video
           			if video["pos"] == pos
             			@phase = phase
             			@video = video
@@ -53,7 +53,7 @@ class Flippd < Sinatra::Application
 	  		if BadgeUtils.is_any_trigger(video_id, @badges)
 	  			potential_rewards = BadgeUtils.get_potential_triggered_badges(video_id, @badges)
 	  			potential_rewards.each do |badge|
-		        	if BadgeUtils.check_requirements(user_id, badge)
+		        	if BadgeUtils.are_requirements_met(user_id, badge)
 		            	BadgeUtils.award_badge(badge, user)
 		            	badges_earnt += 1
 						display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
