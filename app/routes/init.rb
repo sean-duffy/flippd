@@ -1,4 +1,5 @@
 require_relative 'auth'
 require_relative 'main'
-require_relative 'post'
+require_relative 'videos'
+require_relative 'quizes'
 require_relative 'badges'
