@@ -857,5 +857,6 @@
             "requires": {"videos_watched":[{"id":"habitable-programs-avoiding-duplication-why-not-duplicate"}]},
             "img":"/image/no_image.jpg"
         }
-    ]
+    ],
+    "lecturers": ["test@test.ac.uk", "louis.rose@york.ac.uk"]
 }

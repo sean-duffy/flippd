@@ -17,6 +17,9 @@
             <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
             <p class="list-group-item-text"><%=badge["description"]%></p>
             <p class="list-group-item-text">Earnt: <%=badge["date"]%></p>
+            <% if @user.lecturer %>
+                <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
+            <% end %>
         </a>
       <%end%>
       
@@ -25,6 +28,9 @@
             <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
             <p class="list-group-item-text"><%=badge["description"]%></p>
             <p class="list-group-item-text">Not yet achieved</p>
+            <% if @user.lecturer %>
+                <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
+            <% end %>
         </a>
       <%end%>
 
