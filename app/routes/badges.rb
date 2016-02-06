@@ -7,6 +7,9 @@ class Flippd < Sinatra::Application
 
     #only accessible if logged in, as link is in user profile dropdown
     get '/badges/my_badges' do
+        if @user_id == nil
+            redirect to("/")
+        end
         user = User.get(@user_id)
         @earnt = []
         @not_earnt = []
