@@ -14,6 +14,9 @@
     <div id="badges" class="list-group">
       <%@earnt.each do |badge|%>
         <a href="#" class="list-group-item list-group-item-success">
+            <div class="col-xs-3 col-md-2">
+                <img src="<%=badge["img"]%>">
+            </div>
             <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
             <p class="list-group-item-text"><%=badge["description"]%></p>
             <p class="list-group-item-text">Earnt: <%=badge["date"]%></p>
@@ -22,9 +25,12 @@
             <% end %>
         </a>
       <%end%>
-      
+
       <%@not_earnt.each do |badge|%>
         <a href="#" class="list-group-item">
+            <div class="col-xs-3 col-md-2">
+                <img src="<%=badge["img"]%>">
+            </div>
             <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
             <p class="list-group-item-text"><%=badge["description"]%></p>
             <p class="list-group-item-text">Not yet achieved</p>
