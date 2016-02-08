@@ -52,11 +52,11 @@
         </div>
       </div>
     </nav>
-    
+
     <% if @user %>
-		<div id="notification" class="notification">
-			<%= erb :notification_alert %>
-		</div>
+    <div id="notification" class="col-md-4 notification">
+        <%= erb :notification_alert %>
+    </div>
     <% end %>
 
     <div class="container">
