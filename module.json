@@ -834,28 +834,28 @@
             "id": "badges-kaiser-chief",
             "description": "Watched the Ruby Tutorial",
             "requires": {"videos_watched":[{"id":"fundamentals-ruby-ruby"}]},
-            "img": "/images/no_image.png"
+            "img": "/images/ruby.png"
         },
         {
             "title": "Cohesion is key",
             "id": "badges-cohesion-is-key",
             "description": "Passed the cohesion formative",
             "requires": {"quiz_result":[{"id":"habitable-programs-cohesion-formative", "mark":2}]},
-            "img": "/images/no_image.png"
+            "img": "/images/key.png"
         },
         {
             "title":"Attack of the Clones",
             "id": "badges-attack-of-the-clones",
             "description": "Watched the 'Clone Detection' video",
             "requires": {"videos_watched":[{"id":"habitable-programs-avoiding-duplication-clone-detection"}]},
-            "img":"/images/no_image.png"
+            "img":"/images/clone.png"
         },
         {
             "title":"Why Not Zoidberg?",
             "id":"badges-why-not-zoidberg",
             "description":"Watched the 'Why not duplicate?' video",
             "requires": {"videos_watched":[{"id":"habitable-programs-avoiding-duplication-why-not-duplicate"}]},
-            "img":"/images/no_image.png"
+            "img":"/images/zoidberg.png"
         }
     ],
     "lecturers": ["test@test.ac.uk", "louis.rose@york.ac.uk"]
