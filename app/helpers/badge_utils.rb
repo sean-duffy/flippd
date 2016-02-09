@@ -66,6 +66,10 @@ module BadgeUtils
         end
         return false
     end
+    
+    def self.get_owner_count(badge)
+        return Badge.count(:json_id => badge["id"])
+    end
 
     def self.get_date_earned(user_id, badge)
         match = Badge.first(:user_id =>user_id, :json_id => badge["id"])

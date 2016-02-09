@@ -13,11 +13,15 @@ class Flippd < Sinatra::Application
   before do
     @user = nil
     @user = User.get(session[:user_id]) if session.key?(:user_id)
+    @lecturers = @module["lecturers"]
   end
 
   route :get, :post, '/auth/:provider/callback' do
     auth_hash = env['omniauth.auth']
-    user = User.first_or_create({ email: auth_hash.info.email }, { name: auth_hash.info.name} )
+    email = auth_hash.info.email
+    user = User.first_or_create({ email: email }, { name: auth_hash.info.name})
+    is_lecturer = @lecturers.include? email
+    user.update(:lecturer => is_lecturer)
     session[:user_id] = user.id
 
     origin = env['omniauth.origin'] || '/'
