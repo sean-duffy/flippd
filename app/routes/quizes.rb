@@ -38,12 +38,15 @@ class Flippd < Sinatra::Application
 		@previous, @next = get_previous_and_next_page_links(@phases, pos)
 
 		@score = 0
-		@post.each do |question_no, answer|
-		    if @quiz["questions"][question_no.to_i]["correct answer"] == answer
-		        @score += 1
-		    end
-		end
-		
+
+        if @post
+    		@post.each do |question_no, answer|
+    		    if @quiz["questions"][question_no.to_i]["correct answer"] == answer
+    		        @score += 1
+    		    end
+    		end
+        end
+
 		user_id = get_user_id(session)
 		if is_user_logged_in(user_id)
 		    user = User.get(user_id)
