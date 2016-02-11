@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe GeneralUtils do
+#describe GeneralUtils do
 	include GeneralUtils
 	describe "#get_user_id" do
 		it "returns an existing user id from the session" do
@@ -24,4 +24,12 @@ describe GeneralUtils do
 			expect(is_user_logged_in("user_id")).to be true
 		end
 	end
-end
+
+	#describe "#display_notification" do
+	#	it "displays a flash notification" do
+	#		visit('/videos/2')
+	#		display_notification("Name", "Title", "Text")			
+	#		expect(flash[:notification]).to be_present
+	#	end
+	#end
+#end

@@ -6,8 +6,8 @@ module GeneralUtils
 
 	def get_user_id(session)
 		# Returns the user id of the signed in user or nil if no user is signed in
-		if session.has_key?("user_id")
-		    session["user_id"]
+		if session.has_key?(:user_id)
+		    session[:user_id]
 		else
 		    nil
 		end
@@ -15,11 +15,7 @@ module GeneralUtils
 
 	def is_user_logged_in(user_id)
 		# Returns true if the user_id is not nil, else false
-		if user_id == nil
-			false
-		else
-			true
-		end
+		not user_id == nil
 	end
 
 	def display_notification(name, title, text)
