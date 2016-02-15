@@ -13,7 +13,7 @@
   <div class="col-md-12">
     <div id="badges" class="list-group">
       <%@earnt.each do |badge|%>
-        <a href="#" class="list-group-item list-group-item-success">
+        <div class="list-group-item list-group-item-success">
             <div class="col-xs-3 col-md-2">
                 <img src="<%=badge["img"]%>">
             </div>
@@ -23,11 +23,11 @@
             <% if @user.lecturer %>
                 <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
             <% end %>
-        </a>
+        </div>
       <%end%>
 
       <%@not_earnt.each do |badge|%>
-        <a href="#" class="list-group-item">
+        <div class="list-group-item">
             <div class="col-xs-3 col-md-2">
                 <img src="<%=badge["img"]%>">
             </div>
@@ -37,7 +37,7 @@
             <% if @user.lecturer %>
                 <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
             <% end %>
-        </a>
+        </div>
       <%end%>
 
     </div>
