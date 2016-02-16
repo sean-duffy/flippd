@@ -1,6 +1,6 @@
 <% if flash[:notification] %>
 	<% flash[:notification].each do |notification_id, notification| %>
-		<div id="inner-notification" class="alert alert-info alert-dismissible" role="alert">
+		<div id="inner-notification" class="alert alert-info alert-dismissible inner-notification" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<strong><%= notification["title"]%></strong> <%= notification["text"]%>
 		</div>
