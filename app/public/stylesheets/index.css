@@ -15,3 +15,18 @@ body {
 #player {
   border: 1px solid black;
 }
+
+/* Stlyes used to display notifcations */
+.notification {
+  position: fixed;
+  padding-top: 40px;
+  padding-left: 0px;
+  top: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.inner-notification {
+  margin-bottom: 0px;
+  margin-top: 20px;
+}

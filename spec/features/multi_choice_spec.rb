@@ -49,6 +49,14 @@ feature "A multiple choice test page" do
         expect(last_response.body).to have_xpath '//span[@class="help-block" and @id="0_correct_answer"]'
     end
 
+	it "shows correct answers even if the user doesn't answer any questions" do
+        post "/quizzes/24", params={:id=>"24"}
+        expect(last_response.ok?).to eq(true)
+        expect(last_response.body).to have_content("Score: 0 / 2")
+        expect(last_response.body).to have_xpath '//span[@class="help-block" and @id="0_correct_answer"]'
+	expect(last_response.body).to have_xpath '//span[@class="help-block" and @id="1_correct_answer"]'
+    end
+
 # Req 4. Provide links to the previous/ next topic (quiz? FIXME)
     it "has link to the previous video" do
         expect(page).to have_link "Getting cohesion", href: "/videos/23"

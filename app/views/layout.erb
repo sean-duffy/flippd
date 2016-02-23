@@ -41,6 +41,7 @@
                   <%=@user[:email]%> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                  <li><a href="/badges/my_badges">My Badges</a></li>
                   <li><a href="/auth/destroy">Sign Out</a></li>
                </ul>
               </li>
@@ -51,6 +52,12 @@
         </div>
       </div>
     </nav>
+
+    <% if @user %>
+    <div id="notification" class="col-md-4 notification">
+        <%= erb :notification_alert %>
+    </div>
+    <% end %>
 
     <div class="container">
       <div class="row">

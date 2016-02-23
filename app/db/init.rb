@@ -1,4 +1,5 @@
 require 'data_mapper'
+require 'dm-aggregates'
 
 if ENV['RACK_ENV'] == 'test'
   DataMapper.setup(:default, 'mysql://root:root@localhost/flippd_test')
