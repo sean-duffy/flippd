@@ -4,6 +4,7 @@ class User
   property :id, Serial
   property :name, String, required: true, length: 150
   property :email, String, required: true, length: 150
+  property :team_name, String, required:false, length: 150, default: "unset"
   property :lecturer, Boolean, required: false, default: false
 
   has n, :badges
