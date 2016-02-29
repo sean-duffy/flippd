@@ -48,13 +48,28 @@ module BadgeUtils
         end
         return triggered
     end
+
+    def self.get_potential_team_badges(badges)
+        triggered = []
+        badges.each do |badge|
+            badge["title"] += " (Team)"
+            triggered.push(badge)
+        end
+        return triggered
+    end
+
     
-    def self.are_requirements_met(user_id, badge)
+    def self.are_requirements_met(user_id, badge, teams)
         if self.has_badge(user_id, badge)
             return false
         end
+        puts badge
         pass = self.check_watched_videos_req(user_id, badge)
+        puts pass
         pass = self.check_quiz_result_req(user_id, badge)
+        puts pass
+        pass = self.check_team_result_req(user_id, badge, teams)
+        puts pass
         return pass
     end
 
@@ -110,6 +125,25 @@ module BadgeUtils
             end
         end
         return true
+    end
+
+    def self.check_team_result_req(user_id, badge, teams)
+        if badge["title"].include? "(Team)" then
+            team = TeamUtils.get_team_for_user(user_id, teams)
+            team_members = TeamUtils.get_users_for_team(team) # Needs to be made exhaustive for this to work properly
+            badge["title"].sub! " (Team)", ""
+
+            team_has_badge = true
+            team_members.each do |team_member|
+                if not has_badge(team_member, badge)
+                    team_has_badge = false
+                end
+            end
+        else
+            return true
+        end
+
+        return team_has_badge
     end
 
     def self.award_badge(badge, user)

@@ -17,6 +17,7 @@ class Flippd < Sinatra::Application
         @module = JSON.load(open(@json_loc))
         @phases = load_phases(@module)
         @badges = BadgeUtils.load_badges(@module)
+        @teams = TeamUtils.load_teams(@module)
         
         if !(flash[:notification])
         	flash[:notification] = {}

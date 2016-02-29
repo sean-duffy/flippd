@@ -52,8 +52,9 @@ class Flippd < Sinatra::Application
 
 	  		if BadgeUtils.is_any_trigger(video_id, @badges)
 	  			potential_rewards = BadgeUtils.get_potential_triggered_badges(video_id, @badges)
+                potential_rewards += BadgeUtils.get_potential_team_badges(potential_rewards)
 	  			potential_rewards.each do |badge|
-		        	if BadgeUtils.are_requirements_met(user_id, badge)
+                    if BadgeUtils.are_requirements_met(user_id, badge, @teams)
 		            	BadgeUtils.award_badge(badge, user)
 		            	badges_earnt += 1
 						display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
