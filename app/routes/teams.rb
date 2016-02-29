@@ -20,6 +20,7 @@ class Flippd < Sinatra::Application
         @member_badges = 0
         @team["members"].each do |member|
             match = User.first(:email => member["email"])
+            #Users might never have logged in, in which case there is no match
             badges = 0
             if match != nil
                 badges = BadgeUtils.get_badge_count(match.id)
@@ -42,6 +43,7 @@ class Flippd < Sinatra::Application
         @badge_count = @badges.count
         @team["members"].each do |member|
             match = User.first(:email => member["email"])
+            # Users might never have logged in, in which case there is no match
             badges = 0
             if match != nil
                 badges = BadgeUtils.get_badge_count(match.id)
@@ -54,6 +56,7 @@ class Flippd < Sinatra::Application
     end
 
     get '/teams/team_badges' do
+        # Placeholder
         redirect to("/teams/my_team")
     end
 
