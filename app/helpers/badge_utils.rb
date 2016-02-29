@@ -18,7 +18,7 @@ module BadgeUtils
             badge["triggers"] = triggers
         end
         return badges
-    end
+     end
 
     def self.is_any_trigger(page_id, badges)
         badges.each do |badge|
