@@ -27,7 +27,7 @@ module TeamUtils
     end
 
     def self.get_team_for_user(user_id, teams)
-        user = User.first(:user_id => user_id)
+        user = User.first(:id => user_id)
         if user == nil
             return nil  
         end

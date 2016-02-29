@@ -18,7 +18,7 @@ module BadgeUtils
             badge["triggers"] = triggers
         end
         return badges
-    end  
+    end
 
     def self.is_any_trigger(page_id, badges)
         badges.each do |badge|
@@ -69,6 +69,10 @@ module BadgeUtils
     
     def self.get_owner_count(badge)
         return Badge.count(:json_id => badge["id"])
+    end
+
+    def self.get_badge_count(user_id)
+        return Badge.count(:user_id => user_id)
     end
 
     def self.get_date_earned(user_id, badge)
