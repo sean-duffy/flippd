@@ -1,0 +1,27 @@
+<h1> Team <%=@team["name"]%></h1>
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="/teams/my_team">Overivew</a></li>
+    <li role="presentation" class="active"><a href="/teams/member_badges">Individual Badges</a></li>
+    <li role="presentation"><a href="/teams/team_badges">Team Badges </a><li>
+<ul>
+
+<div id="team" class="row" style="padding-bottom: 45px;">
+    <div class="col-md-6">
+        <h3> Team Members </h3>
+    </div>
+    <div class="col-md-6">
+        <h3> Individual Badge Progress </h3>
+    </div>
+    <% @members.each do |member| %>
+        <div class="col-md-6"><%=member["name"]%></div>
+        <div class="col-md-6">
+            <div class="progress">
+                <div class="progress-bar" role="progresbar" aria-valuenow="<%=member["badges"]%>" aria-valuemin="0" aria-valuemax="<%=@badge_count%>"
+                    style="min-width: 2em; width:<%=member["percent"]%>%">
+                    <%=member["badges"]%>
+                </div>
+            </div>
+        </div>
+        
+    <%end%>
+<div>
