@@ -27,14 +27,16 @@ class Flippd < Sinatra::Application
     is_lecturer = @lecturers.include? email
     user.update(:lecturer => is_lecturer)
     team = TeamUtils.get_team_from_email(email, @teams)
-    puts "team is"
-    puts team["name"]
-    if team != nil
-        puts "team not nil"
-        user.update(:team_name => team["name"])
+    if team then
+        puts "team is"
+        puts team["name"]
+        if team != nil
+            puts "team not nil"
+            user.update(:team_name => team["name"])
+        end
+        puts "user team name"
+        puts user.team_name
     end
-    puts "user team name"
-    puts user.team_name
     session[:user_id] = user.id
 
     origin = env['omniauth.origin'] || '/'
