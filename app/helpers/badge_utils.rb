@@ -49,15 +49,6 @@ module BadgeUtils
         return triggered
     end
 
-    def self.get_potential_team_badges(badges)
-        triggered = []
-        badges.each do |badge|
-            badge["title"] += " (Team)"
-            triggered.push(badge)
-        end
-        return triggered
-    end
-
     def self.are_requirements_met(user_id, badge)
         if self.has_badge(user_id, badge)
             return false
