@@ -61,7 +61,7 @@ class Flippd < Sinatra::Application
                         if BadgeUtils.are_team_requirements_met(user_id, badge, @teams)
                             BadgeUtils.award_team_badge(badge, user, @teams)
                             badges_earnt += 1
-                            display_notification("#{badge["id"]}", "Your team earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
+                            display_notification("#{badge["id"]}-team", "Your team earned a new badge!", "Well done, everyone on your team has earned the '#{badge["title"]}' team badge")
                         end
                     end
                 end
