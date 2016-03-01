@@ -131,22 +131,22 @@ module BadgeUtils
     end
 
     def self.check_team_result_req(user_id, badge, teams)
-        if badge["title"].include? "(Team)" then
-            team = TeamUtils.get_team_for_user(user_id, teams)
-            team_members = TeamUtils.get_users_for_team(team) # Needs to be made exhaustive for this to work properly
-            badge["title"].sub! " (Team)", ""
+        team = TeamUtils.get_team_for_user(user_id, teams)
+        if TeamUtils.team_has_logged_in(team) then
+            puts "logged"
+            team_members = TeamUtils.get_users_for_team(team)
 
             team_has_badge = true
             team_members.each do |team_member|
-                if not has_badge(team_member, badge)
+                if not has_badge(team_member.id, badge)
                     team_has_badge = false
                 end
             end
-        else
-            return true
-        end
 
-        return team_has_badge
+            return team_has_badge
+        else
+            return false
+        end
     end
 
     def self.award_badge(badge, user)

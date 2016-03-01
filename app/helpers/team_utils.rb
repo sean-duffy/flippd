@@ -53,6 +53,18 @@ module TeamUtils
         return users
     end
 
+    def self.team_has_logged_in(team)
+        # This returns true if all members of a team
+        # have logged in at some point
+        team["emails"].each do |email|
+            user = User.first(:email => email)
+            if user == nil
+                return false
+            end
+        end
+        return true
+    end
+
     def self.get_team_by_name(name, teams)
         teams.each do |team|
             if team["name"] == name
