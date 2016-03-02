@@ -49,33 +49,36 @@ module BadgeUtils
         return triggered
     end
 
-    def self.get_potential_team_badges(badges)
-        triggered = []
-        badges.each do |badge|
-            badge["title"] += " (Team)"
-            triggered.push(badge)
-        end
-        return triggered
-    end
-
-    
-    def self.are_requirements_met(user_id, badge, teams)
+    def self.are_requirements_met(user_id, badge)
         if self.has_badge(user_id, badge)
             return false
         end
-        puts badge
         pass = self.check_watched_videos_req(user_id, badge)
-        puts pass
         pass = self.check_quiz_result_req(user_id, badge)
-        puts pass
+        return pass
+    end
+
+    def self.are_team_requirements_met(user_id, badge, teams)
+        if self.team_has_badge(user_id, badge, teams)
+            return false
+        end
         pass = self.check_team_result_req(user_id, badge, teams)
-        puts pass
         return pass
     end
 
     def self.has_badge(user_id, badge)
         #User already has badge
         match = Badge.first(:user_id => user_id, :json_id => badge["id"])
+        if match != nil
+            return true
+        end
+        return false
+    end
+
+    def self.team_has_badge(user_id, badge, teams)
+        #User's team already has badge
+        team = TeamUtils.get_team_for_user(user_id, teams)
+        match = TeamBadge.first(:team_name => team, :json_id => badge["id"])
         if match != nil
             return true
         end
@@ -128,26 +131,31 @@ module BadgeUtils
     end
 
     def self.check_team_result_req(user_id, badge, teams)
-        if badge["title"].include? "(Team)" then
-            team = TeamUtils.get_team_for_user(user_id, teams)
-            team_members = TeamUtils.get_users_for_team(team) # Needs to be made exhaustive for this to work properly
-            badge["title"].sub! " (Team)", ""
+        team = TeamUtils.get_team_for_user(user_id, teams)
+        if TeamUtils.team_has_logged_in(team) then
+            puts "logged"
+            team_members = TeamUtils.get_users_for_team(team)
 
             team_has_badge = true
             team_members.each do |team_member|
-                if not has_badge(team_member, badge)
+                if not has_badge(team_member.id, badge)
                     team_has_badge = false
                 end
             end
-        else
-            return true
-        end
 
-        return team_has_badge
+            return team_has_badge
+        else
+            return false
+        end
     end
 
     def self.award_badge(badge, user)
         Badge.create(:json_id => badge["id"], :date => Time.now, :user => user)
+    end
+
+    def self.award_team_badge(badge, user, teams)
+        team = TeamUtils.get_team_for_user(user.id, teams)
+        TeamBadge.create(:json_id => badge["id"], :date => Time.now, :team_name => team["name"])
     end
 
 end
