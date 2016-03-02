@@ -1,6 +1,6 @@
 <h1> Team <%=@team["name"]%></h1>
 <ul class="nav nav-tabs">
-    <li role="presentation"><a href="/teams/my_team">Overivew</a></li>
+    <li role="presentation"><a href="/teams/my_team">Overview</a></li>
     <li role="presentation" class="active"><a href="/teams/member_badges">Individual Badges</a></li>
     <li role="presentation"><a href="/teams/team_badges">Team Badges </a><li>
 <ul>
@@ -13,11 +13,12 @@
         <h3> Individual Badge Progress </h3>
     </div>
     <% @members.each do |member| %>
+        <% percentage= member["badges"].fdiv(@badge_count) * 100 %>
         <div class="col-md-6"><%=member["name"]%></div>
         <div class="col-md-6">
             <div class="progress">
                 <div class="progress-bar" role="progresbar" aria-valuenow="<%=member["badges"]%>" aria-valuemin="0" aria-valuemax="<%=@badge_count%>"
-                    style="min-width: 2em; width:<%=member["percent"]%>%">
+                    style="min-width: 2em; width:<%=percentage%>%">
                     <%=member["badges"]%>
                 </div>
             </div>
