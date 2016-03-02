@@ -861,7 +861,7 @@
     "lecturers": ["test@test.ac.uk", "louis.rose@york.ac.uk"],
     "teams":[
         {"name":"Anderton",
-         "members":[{"name":"Garerth Handley", "email":"gh666@york.ac.uk"},
+         "members":[{"name":"Gareth Handley", "email":"gh666@york.ac.uk"},
                     {"name":"Stephen Webb", "email":"slw546@york.ac.uk"},
                     {"name":"Katie Mills", "email":"km854@york.ac.uk"},
                     {"name":"Chris Dobson", "email":"cjd523@york.ac.uk"},
