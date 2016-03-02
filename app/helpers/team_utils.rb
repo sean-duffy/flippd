@@ -1,4 +1,5 @@
 require 'json'
+require './app/helpers/badge_utils'
 
 module TeamUtils
 
@@ -62,6 +63,24 @@ module TeamUtils
         return nil
     end
 
+    def self.get_members(team)
+        ret = []
+        team["members"].each do |member|
+            # Members might not yet have logged in, so will not be in users
+            match = User.first(:email => member["email"])
+            badges = 0
+            if match != nil
+                badges = BadgeUtils.get_badge_count(match.id)
+            end
+            ret.push(Hash["name" => member["name"], "badges"=>badges, "email" => member["email"]])
+        end
+        return ret
+    end
+
+    def self.count_member_badges(members)
+        return members.map { |m| m["badges"] }.reduce(0, :+)
+    end
+
 end
 
-
+  
