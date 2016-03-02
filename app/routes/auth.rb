@@ -28,14 +28,9 @@ class Flippd < Sinatra::Application
     user.update(:lecturer => is_lecturer)
     team = TeamUtils.get_team_from_email(email, @teams)
     if team then
-        puts "team is"
-        puts team["name"]
         if team != nil
-            puts "team not nil"
             user.update(:team_name => team["name"])
         end
-        puts "user team name"
-        puts user.team_name
     end
     session[:user_id] = user.id
 
