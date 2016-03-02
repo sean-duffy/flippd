@@ -60,6 +60,7 @@ module BadgeUtils
 
     def self.are_team_requirements_met(user_id, badge, teams)
         team = TeamUtils.get_team_for_user(user_id, teams)
+        # If user is not ina  team, they are not eligible for a team badge
         if team == nil
             return false
         end
@@ -174,7 +175,6 @@ module BadgeUtils
                    self.award_badge(badge, user)
                    badges_earnt += 1
                    awards.push(Hash["id" => badge["id"], "title" => badge["title"], "team" => false])
-                    #FIXME does not work if user not in a team
                    if self.are_team_requirements_met(user_id, badge, teams)
                        self.award_team_badge(badge, user, teams)
                        badges_earnt += 1
