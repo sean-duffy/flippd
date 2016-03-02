@@ -54,14 +54,16 @@ class Flippd < Sinatra::Application
 		if is_user_logged_in(user_id)
 			user = User.get(user_id)
 			result = QuizResult.create(:json_id => @quiz["id"], :date => Time.now, :mark => @score, :user => user)
-
-			potential_rewards = BadgeUtils.get_potential_triggered_badges(@quiz["id"], @badges)
-			potential_rewards.each do |badge|
-			    if BadgeUtils.are_requirements_met(user_id, badge)
-			        BadgeUtils.award_badge(badge, user)
-					display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
-			    end
-			end
+            awards = BadgeUtils.trigger_badges(user_id, @quiz["id"], @badges, @teams)
+            if !awards.empty?
+                awards.each do |award|
+                    if !award["team"]
+                        display_notification("#{award["id"]}", "You earned a new badge!", "Well done, you just earned the '#{award["title"]}' badge")
+                    else
+                        display_notification("#{award["id"]}-team", "Your team earned a badge!", "Well done, everyone on your team has earned the '#{award["title"]}' team badge")
+                    end
+                end
+            end
 		end
 
     	erb :quiz_result

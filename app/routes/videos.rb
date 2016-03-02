@@ -50,26 +50,17 @@ class Flippd < Sinatra::Application
                 VideosWatched.create(:json_id => video_id, :date => Time.now, :user => user)
             end
 
-            if BadgeUtils.is_any_trigger(video_id, @badges)
-                potential_rewards = BadgeUtils.get_potential_triggered_badges(video_id, @badges)
-                potential_rewards.each do |badge|
-                    if BadgeUtils.are_requirements_met(user_id, badge)
-                        BadgeUtils.award_badge(badge, user)
-                        badges_earnt += 1
-                        display_notification("#{badge["id"]}", "You earned a new badge!", "Well done, you just earned the '#{badge["title"]}' badge")
-
-                        if BadgeUtils.are_team_requirements_met(user_id, badge, @teams)
-                            BadgeUtils.award_team_badge(badge, user, @teams)
-                            badges_earnt += 1
-                            display_notification("#{badge["id"]}-team", "Your team earned a new badge!", "Well done, everyone on your team has earned the '#{badge["title"]}' team badge")
-                        end
+            awards = BadgeUtils.trigger_badges(user_id, video_id, @badges, @teams)
+            if !awards.empty?
+                awards.each do |award|
+                    if !award["team"]
+                        display_notification("#{award["id"]}", "You earned a new badge!", "Well done, you just earned the '#{award["title"]}' badge")
+                    else
+                        display_notification("#{award["id"]}-team", "Your team earned a badge!", "Well done, everyone on your team has earned the '#{award["title"]}' team badge")
                     end
                 end
             end
         end
-
-        # Return a count of how many badges we have awarded
-        badges_earnt.to_s
     end
 
 end

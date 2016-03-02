@@ -59,6 +59,10 @@ module BadgeUtils
     end
 
     def self.are_team_requirements_met(user_id, badge, teams)
+        team = TeamUtils.get_team_for_user(user_id, teams)
+        if team == nil
+            return false
+        end
         if self.team_has_badge(user_id, badge, teams)
             return false
         end
@@ -156,6 +160,30 @@ module BadgeUtils
     def self.award_team_badge(badge, user, teams)
         team = TeamUtils.get_team_for_user(user.id, teams)
         TeamBadge.create(:json_id => badge["id"], :date => Time.now, :team_name => team["name"])
+    end
+
+    def self.trigger_badges(user_id, resource_id, badges, teams)
+        puts(resource_id) 
+        awards = []
+        badges_earnt = 0
+        user = User.get(user_id)
+        if self.is_any_trigger(resource_id, badges)
+            potential_rewards = self.get_potential_triggered_badges(resource_id, badges)
+            potential_rewards.each do |badge|
+                if self.are_requirements_met(user_id, badge)
+                   self.award_badge(badge, user)
+                   badges_earnt += 1
+                   awards.push(Hash["id" => badge["id"], "title" => badge["title"], "team" => false])
+                    #FIXME does not work if user not in a team
+                   if self.are_team_requirements_met(user_id, badge, teams)
+                       self.award_team_badge(badge, user, teams)
+                       badges_earnt += 1
+                       awards.push(Hash["id" => badge["id"], "title" => badge["title"], "team" => true])
+                   end
+                end
+            end
+        end
+        return awards
     end
 
 end
