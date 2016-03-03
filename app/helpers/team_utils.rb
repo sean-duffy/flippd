@@ -84,7 +84,8 @@ module TeamUtils
             if match != nil
                 badges = BadgeUtils.get_badge_count(match.id)
             end
-            ret.push(Hash["name" => member["name"], "badges"=>badges, "email" => member["email"]])
+            member["badges"] = badges
+            ret.push(member)
         end
         return ret
     end
