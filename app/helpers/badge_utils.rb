@@ -60,11 +60,11 @@ module BadgeUtils
 
     def self.are_team_requirements_met(user_id, badge, teams)
         team = TeamUtils.get_team_for_user(user_id, teams)
-        # If user is not ina  team, they are not eligible for a team badge
+        # If user is not in a team, they are not eligible for a team badge
         if team == nil
             return false
         end
-        if self.team_has_badge(user_id, badge, teams)
+        if self.team_has_badge(team["name"], badge)
             return false
         end
         pass = self.check_team_result_req(user_id, badge, teams)
@@ -80,10 +80,9 @@ module BadgeUtils
         return false
     end
 
-    def self.team_has_badge(user_id, badge, teams)
-        #User's team already has badge
-        team = TeamUtils.get_team_for_user(user_id, teams)
-        match = TeamBadge.first(:team_name => team, :json_id => badge["id"])
+    def self.team_has_badge(team_name, badge)
+        #Team already has badge
+        match = TeamBadge.first(:team_name => team_name, :json_id => badge["id"])
         if match != nil
             return true
         end
