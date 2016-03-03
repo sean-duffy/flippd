@@ -31,15 +31,34 @@ class Flippd < Sinatra::Application
         if @team == nil
             redirect to("/teams/no_team")
         end
-        @members=TeamUtils.get_members(@team)
+        @members = TeamUtils.get_members(@team)
         @member_badges = TeamUtils.count_member_badges(@members)
         @badge_count = @badges.count
         erb :team_member_badges
     end
 
     get '/teams/team_badges' do
-        # Placeholder
-        redirect to("/teams/my_team")
+        if @user_id == nil
+            redirect to("/")
+        end
+        if @team == nil
+            redirect to("/teams/no_team")
+        end
+        @members = TeamUtils.get_members(@team)
+        @total_badges = @badges.length
+
+        @earnt = []
+        @not_earnt = []
+
+        @badges.each do |badge|
+            if BadgeUtils.team_has_badge(@team["name"], badge)
+                @earnt.push(badge)
+            else
+                @not_earnt.push(badge)
+            end
+        end
+
+        erb :team_badges
     end
 
     get '/teams/no_team' do

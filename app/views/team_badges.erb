@@ -1,22 +1,45 @@
-<h1> Team <%=@team["name"]%></h1>
-<ul class="nav nav-tabs">
-    <li role="presentation"><a href="/teams/my_team">Overview</a></li>
-    <li role="presentation"><a href="/teams/member_badges">Individual Badges</a></li>
-    <li role="presentation" class="active"><a href="/team/team_badges">Team Badges </a><li>
-<ul>
+<h1>Team Badges</h1>
 
-<div id="team" class="row" style="padding-bottom: 45px;">
-    <div class="col-md-3">
-        <h3> Team Members </h3>
-        <hr>
-        <% @members.each do |member| %>
-            <div><center><%=member["name"]%><center></div>
-        <% end %>
+<div class="row">
+  <div class="col-md-12" style="padding-top: 15px;">
+    <p class="lead">
+        Badges Progress: <%=@earnt.length%>/<%=@total_badges%>
+    </p>
+    <p>These are the badges everyone on your team has earned!</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div id="badges" class="list-group">
+      <%@earnt.each do |badge|%>
+        <div class="list-group-item list-group-item-success">
+            <div class="col-xs-3 col-md-2">
+                <img src="<%=badge["img"]%>">
+            </div>
+            <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
+            <p class="list-group-item-text"><%=badge["description"]%></p>
+            <p class="list-group-item-text">Earnt: <%=badge["date"]%></p>
+            <% if @user.lecturer %>
+                <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
+            <% end %>
+        </div>
+      <%end%>
+
+      <%@not_earnt.each do |badge|%>
+        <div class="list-group-item">
+            <div class="col-xs-3 col-md-2">
+                <img src="<%=badge["img"]%>">
+            </div>
+            <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
+            <p class="list-group-item-text"><%=badge["description"]%></p>
+            <p class="list-group-item-text">Not yet achieved</p>
+            <% if @user.lecturer %>
+                <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
+            <% end %>
+        </div>
+      <%end%>
+
     </div>
-    <div class="col-md-9" style="padding-left: 45px;">
-        <h3> Team Badge Progress </h3>
-        <div style="padding-left:25px;"> The team has earnt <%=@team_badge_count%> Team Badges. </div>
-        <h3> Individual Badge Progress </h3>
-        <div style="padding-left:25px;"> Team members have earnt <%=@member_badges%> individual badges. </div>
-    </div>
-<div>
+  </div>
+</div>
