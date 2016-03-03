@@ -140,14 +140,14 @@ module BadgeUtils
             puts "logged"
             team_members = TeamUtils.get_users_for_team(team)
 
-            team_has_badge = true
+            team_has_requirements = true
             team_members.each do |team_member|
                 if not has_badge(team_member.id, badge)
-                    team_has_badge = false
+                    team_has_requirements = false
                 end
             end
 
-            return team_has_badge
+            return team_has_requirements
         else
             return false
         end
