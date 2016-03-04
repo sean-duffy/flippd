@@ -4,9 +4,10 @@ require 'sinatra/base'
 require './app/helpers/badge_utils'
 require './app/helpers/general_utils'
 require './app/helpers/video_utils'
+require './app/helpers/comment_utils'
 
 class Flippd < Sinatra::Application
-	helpers BadgeUtils, GeneralUtils, VideoUtils
+	helpers BadgeUtils, GeneralUtils, VideoUtils, CommentUtils
 
 	get '/videos/:pos' do
 		pos = params["pos"].to_i
@@ -34,15 +35,15 @@ class Flippd < Sinatra::Application
 		end
 
     	# Load the comments for this video
-		@comment_voting_on = @settings["voting_on"] == "true"
+		@comment_voting_on = CommentUtils.is_comment_voting_on(@settings)
 		@comments = CommentUtils.get_comments(@video["id"], @comment_voting_on)
 
 		@replies = Array.new
 		@vote_states = Array.new
 		@comments.each do |comment|
 			existing_vote = CommentUtils.get_existing_vote(comment["id"], @user)
-			if existing_vote != nil
-				@vote_states[comment["id"]] = existing_vote
+			if existing_vote 
+				@vote_states[comment["id"]] = existing_vote.is_upvote
 			end
 
     		if @settings["replies_on"] == "true"
@@ -50,8 +51,8 @@ class Flippd < Sinatra::Application
 
         		@replies[comment["id"]].each do |reply|
 					existing_vote = CommentUtils.get_existing_vote(reply["id"], @user)
-					if existing_vote != nil
-						@vote_states[reply["id"]] = existing_vote
+					if existing_vote
+						@vote_states[reply["id"]] = existing_vote.is_upvote
 					end
         		end
 	  		else
