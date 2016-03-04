@@ -31,9 +31,11 @@
             <% question["options"].each do |option| %>
                 <% describedby = nil %>
                 <% selected = false %>
-                
-                <% if @post[question_num.to_s] == option["letter"] %>
-                    <% selected = true %>
+
+                <% if @post %>
+                    <% if @post[question_num.to_s] == option["letter"] %>
+                        <% selected = true %>
+                    <% end %>
                 <% end %>
                 <% if (option["letter"] == question["correct answer"]) %>
                     <div class="radio has-success">
@@ -68,4 +70,3 @@
 <div>
     <h2 class="pull-right"> Score: <%=@score%> / <%=@quiz["questions"].count%></h2>
 </div>
-

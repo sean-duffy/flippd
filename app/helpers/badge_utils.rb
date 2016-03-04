@@ -36,7 +36,7 @@ module BadgeUtils
         return false
     end
 
-    def self.get_triggered_badges(page_id, badges)
+    def self.get_potential_triggered_badges(page_id, badges)
         if not self.is_any_trigger(page_id, badges)
             return []
         end
@@ -49,7 +49,7 @@ module BadgeUtils
         return triggered
     end
     
-    def self.check_requirements(user_id, badge)
+    def self.are_requirements_met(user_id, badge)
         if self.has_badge(user_id, badge)
             return false
         end
@@ -65,6 +65,10 @@ module BadgeUtils
             return true
         end
         return false
+    end
+    
+    def self.get_owner_count(badge)
+        return Badge.count(:json_id => badge["id"])
     end
 
     def self.get_date_earned(user_id, badge)

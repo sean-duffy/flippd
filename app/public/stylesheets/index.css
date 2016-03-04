@@ -19,14 +19,16 @@ body {
 /* Stlyes used to display notifcations */
 .notification {
   position: fixed;
-  padding: 60px;
+  padding-top: 40px;
+  padding-left: 0px;
   top: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
   z-index: 100;
 }
+
 .inner-notification {
-  margin: 0 auto;
+  margin-bottom: 0px;
+  margin-top: 20px;
 }
 
 /* Comment styles */
