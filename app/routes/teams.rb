@@ -80,9 +80,10 @@ class Flippd < Sinatra::Application
         # N/A progress ie. when there is no quiz for a topic
         null_progress = Array.new(@team["members"].length) { |i| @@progress_na }
         # N/A hash for a topic with no formatives
-        null_formative = Hash["title"=>"null", "progress"=> null_progress]
+        null_formative = Hash["title"=>"-", "progress"=> null_progress, "team_knowledge"=>@@progress_na, "team_badge"=>@@progress_na]
 
-        @headings = ["Subject", "Lectures", "Formative", "Progress"]
+        @headings = ["Subject", "", "Progress"]
+        @progress_headings = ["Team Knowledge", "Team Badge"]
         #Half the team, rounding up, must watch a video/pass a quiz to mark off team knowledge
         team_knowledge_min = @team["members"].length.fdiv(2).ceil
         @progress = Hash.new
@@ -105,7 +106,13 @@ class Flippd < Sinatra::Application
             @initials.push(get_user_initials(member["name"]))
         end
         
-        
+        @video_total = Array.new(@team["members"].length) {|i| 0}
+        @quiz_total = Array.new(@team["members"].length) {|i| 0}
+        @video_knowledge_total = 0
+        @video_badge_total = 0 
+        @quiz_knowledge_total = 0
+        @quiz_badge_total = 0
+
         @phases.each do |phase|
             phase_hash = Hash["title" => phase["title"], "topics" => []]
             phase["topics"].each do |topic|
@@ -118,6 +125,7 @@ class Flippd < Sinatra::Application
                     users.each do |user|
                         if is_video_watched(user.id, video["id"])
                             prog[pos] = @@progress_good
+                            @video_total[pos]+=1
                             count += 1
                         end
                         pos += 1
@@ -125,9 +133,12 @@ class Flippd < Sinatra::Application
                     knowledge = @@progress_bad
                     if count >= team_knowledge_min
                         knowledge = @@progress_good
+                        @video_knowledge_total += 1
                     end
                     team_badge = check_team_badge(video["id"])
-                    
+                    if team_badge == @@progress_good
+                        @video_badge_total += 1
+                    end 
                     video_hash = Hash["title" => video["title"], "progress" => prog, "team_knowledge" => knowledge, "team_badge" => team_badge]
                     topic_hash["videos"].push(video_hash)
                 end
@@ -144,6 +155,7 @@ class Flippd < Sinatra::Application
                         users.each do |user|
                             if is_quiz_passed(user.id, quiz["id"])
                                 prog[pos] = @@progress_good
+                                @quiz_total[pos]+=1
                                 count += 1
                             end
                             pos += 1
@@ -151,8 +163,12 @@ class Flippd < Sinatra::Application
                         knowledge = @@progress_bad
                         if count >= team_knowledge_min
                             knowledge = @@progress_good
+                            @quiz_knowledge_total += 1
                         end
                         team_badge = check_team_badge(quiz["id"])
+                        if team_badge == @@progress_good
+                            @quiz_badge_total += 1
+                        end
                         quiz_hash = Hash["title" => quiz["title"], "progress" => prog, "team_knowledge"=>knowledge, "team_badge"=>team_badge]
                         topic_hash["formative"].push(quiz_hash)
                     end
@@ -161,7 +177,9 @@ class Flippd < Sinatra::Application
             end
             @progress[phase["title"]] = phase_hash
         end
-
+        @progress_good = @@progress_good
+        @progress_bad = @@progress_bad
+        @progress_na = @@progress_na
         erb :team_progress
     end
 

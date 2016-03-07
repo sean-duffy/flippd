@@ -1,32 +1,129 @@
-<h1> Team <%=@team["name"]%></h1>
-<ul class="nav nav-tabs">
-    <li role="presentation"><a href="/teams/my_team">Overview</a></li>
-    <li role="presentation"><a href="/teams/member_badges">Individual Badges</a></li>
-    <li role="presentation" class="active"><a href="/team/team_badges">Team Badges </a><li>
-<ul>
+<%= erb :team_nav %>
 
-<div><%=@headings%></div>
-<div><%=@initials%></div>
+<% def style(prog) %>
+    <% return prog == @progress_good ? "success" : prog == @progress_bad ? "danger" : "" %>
+<% end %>
 
-<%@progress.each do |title, phase|%>
-    <div> <strong><%=title%> </strong></div>
-    <div>
-    <%phase["topics"].each do |topic| %>
-        <div> <strong><%=topic["title"]%></strong> </div>
-        <div><em>Videos</em>
-        <%topic["videos"].each do |video| %>
-            <div> <%=video["title"]%> <%=video["progress"]%> <%=video["team_knowledge"]%> <%=video["team_badge"]%></div>
-        <%end%>
-        </div>
-        <div><em>Formatives</em>
-            <%topic["formative"].each do |quiz|%>
-                <div><%=quiz["title"]%> <%=quiz["progress"]%> <%=quiz["team_knowledge"]%> <%=quiz["team_badge"]%> </div>
-            <%end%>
-        </div>
-    <%end%>
-    </div>
-<%end%>
 <br><br><br>
-<div>
-    <%=@progress %>
-</div>
+<h2> Lectures </h2>
+<%@col_width = (@initials.length)+(@progress_headings.length)+1 %>
+<%@headings[1]="Lecture Watched"%>
+<table class="table table-condensed table-bordered">
+    <tr>
+    <th>&nbsp;</th>
+    <%@headings[1..@headings.length-1].each do |head|%>
+        <th colspan=<%=@initials.length%>> <center><%=head%></center></th>
+    <%end%>
+    </tr>
+    <tr>
+        <th><%=@headings[0]%></th>
+        <!-- repeat for videos and formatives -->
+        <%@initials.each do |user|%>
+            <th><%=user%></th>
+        <%end%>
+        <%@progress_headings.each do |head|%>
+            <th><%=head%></th>
+        <%end%>
+    </tr>
+
+    <tbody>
+    <%@progress.each do |title, phase| %>
+        <% if phase["topics"].empty? %>
+            <% next %>
+        <% end %>
+        <tr class="info">
+            <th colspan=<%=@col_width%>><center><%=title%></center></th>
+        </tr>
+        <%phase["topics"].each do |topic| %>
+            <tr class="info">
+                <th><%=topic["title"]%></th>                
+                <th colspan=<%=@col_width-1%></th>
+            </tr>
+            <%topic["videos"].each do |video| %>
+                <tr>
+                    <td><%=video["title"]%></td>
+                    <% video["progress"].each do |val| %>
+                        <td class=<%=style(val)%>><center><%=val%></center></td>
+                    <% end %>
+                    <% val = video["team_knowledge"] %>
+                    <td class=<%=style(val)%>><center><%=val%></center></td>
+                    <% val = video["team_badge"] %>
+                    <td class=<%=style(val)%>><center><%=val%></center></td>
+                </tr>
+            <%end%>
+            
+        <%end%>
+    <% end %>
+    <tr class="info">
+        <th colspan=<%=@col_width%>><center>Overall Progression</center></th>
+    </tr>
+    <tr>
+        <td></td>
+        <% @video_total.each do |val| %>
+            <td><center><%=val%></center></td>
+        <%end%>
+        <td><center><%=@video_knowledge_total%><center></td>
+        <td><center><%=@video_badge_total%></center></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h2> Formatives </h2>
+<%@headings[1]="Formative Passed"%>
+<table class="table table-condensed table-bordered">
+    <tr>
+    <th>&nbsp;</th>
+    <%@headings[1..@headings.length-1].each do |head|%>
+        <th colspan=<%=@initials.length%>> <center><%=head%></center></th>
+    <%end%>
+    </tr>
+    <tr>
+        <th><%=@headings[0]%></th>
+        <%@initials.each do |user|%>
+            <th><%=user%></th>
+        <%end%>
+        <%@progress_headings.each do |head|%>
+            <th><%=head%></th>
+        <%end%>
+    </tr>
+
+    <tbody>
+    <%@progress.each do |title, phase| %>
+        <% if phase["topics"].empty? %>
+            <% next %>
+        <% end %>
+        <tr class="info">
+            <th colspan=<%=@col_width%>><center><%=title%></center></th>
+        </tr>
+        <%phase["topics"].each do |topic| %>
+            <tr class="info">
+                <th><%=topic["title"]%></th>                
+                <th colspan=<%=@col_width-1%></th>
+            </tr>
+            <%topic["formative"].each do |quiz| %>
+                <tr>
+                    <td><%=quiz["title"]%></td>
+                    <% quiz["progress"].each do |val| %>
+                        <td class=<%=style(val)%>><center><%=val%></center></td>
+                    <% end %>
+                    <% val = quiz["team_knowledge"] %>
+                    <td class=<%=style(val)%>><center><%=val%></center></td>
+                    <% val = quiz["team_badge"] %>
+                    <td class=<%=style(val)%>><center><%=val%></center></td>
+                </tr>
+            <% end %>
+        <%end%>
+    <% end %>
+    <tr class="info">
+        <th colspan=<%=@col_width%>><center>Overall Progression</center></th>
+    </tr>
+    <tr>
+        <td></td>
+        <% @quiz_total.each do |val| %>
+            <td><center><%=val%></center></td>
+        <%end%>
+        <td><center><%=@quiz_knowledge_total%><center></td>
+        <td><center><%=@quiz_badge_total%></center></td>
+    </tr>
+</table>
+<br><br>
