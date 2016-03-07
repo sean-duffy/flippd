@@ -51,6 +51,7 @@ module TeamUtils
                 users.push(user)
             end
         end
+        users.sort_by{|u| u.name}
         return users
     end
 
