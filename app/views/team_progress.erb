@@ -1,0 +1,32 @@
+<h1> Team <%=@team["name"]%></h1>
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="/teams/my_team">Overview</a></li>
+    <li role="presentation"><a href="/teams/member_badges">Individual Badges</a></li>
+    <li role="presentation" class="active"><a href="/team/team_badges">Team Badges </a><li>
+<ul>
+
+<div><%=@headings%></div>
+<div><%=@initials%></div>
+
+<%@progress.each do |title, phase|%>
+    <div> <strong><%=title%> </strong></div>
+    <div>
+    <%phase["topics"].each do |topic| %>
+        <div> <strong><%=topic["title"]%></strong> </div>
+        <div><em>Videos</em>
+        <%topic["videos"].each do |video| %>
+            <div> <%=video["title"]%> <%=video["progress"]%> <%=video["team_knowledge"]%> <%=video["team_badge"]%></div>
+        <%end%>
+        </div>
+        <div><em>Formatives</em>
+            <%topic["formative"].each do |quiz|%>
+                <div><%=quiz["title"]%> <%=quiz["progress"]%> <%=quiz["team_knowledge"]%> <%=quiz["team_badge"]%> </div>
+            <%end%>
+        </div>
+    <%end%>
+    </div>
+<%end%>
+<br><br><br>
+<div>
+    <%=@progress %>
+</div>
