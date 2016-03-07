@@ -858,5 +858,11 @@
             "img":"/images/zoidberg.png"
         }
     ],
-    "lecturers": ["test@test.ac.uk", "louis.rose@york.ac.uk"]
+
+  "settings": {
+    "replies_on": "true",
+    "voting_on": "true"
+  },
+
+  "lecturers": ["test@test.ac.uk", "louis.rose@york.ac.uk"]
 }

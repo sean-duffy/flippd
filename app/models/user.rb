@@ -9,4 +9,6 @@ class User
   has n, :badges
   has n, :videos_watched
   has n, :quiz_results
+  has n, :comments
+  has n, :votes
 end

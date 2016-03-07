@@ -28,6 +28,83 @@
   <div id="player"></div>
 </div>
 
+<div id="comments-section" class="row" style="margin-top: 1.5em;">
+  <div class="col-xs-12 col-md-12">
+    <h4>Comments</h4>
+
+    <ul class="list-group">
+      <% @comments.each do |comment|  %>
+        <li data-comment-id="<%=comment["id"]%>" class="list-group-item">
+          <% if @settings['voting_on'] == "true" %>
+          <div class="col-xs-1 col-md-1 comment-voting-container">
+            <form class="comment-upvote-form" method="post" action="/upvote_comment/<%=comment["id"]%>">
+              <span <% if @vote_states[comment["id"]] %>
+                style="color:green;"
+              <% end %> onclick="submitParent(this);" class="glyphicon glyphicon-arrow-up"></span>
+            </form>
+            <strong><% if comment["points"].between?(0, 9)%>&nbsp;<% end %><%=comment["points"].to_s%></strong>
+            <form class="comment-downvote-form" method="post" action="/downvote_comment/<%=comment["id"]%>">
+              <span <% if @vote_states[comment["id"]] == false %>
+                style="color:red;"
+              <% end %> onclick="submitParent(this);" class="glyphicon glyphicon-arrow-down"></span>
+            </form>
+          </div>
+          <% end %>
+          <p class="list-group-item-text"><%=comment["body"]%></p>
+          </br>
+          <strong>Posted by <%=comment.user["name"]%> on <%=comment["created"].strftime('%Y-%m-%d')%>.</strong>
+          <% if @settings['replies_on'] == "true" %>
+            <a onclick="replyComment(this);" class="comment-reply-link">Reply</a>
+          <% end %>
+          <% if @user == comment.user %>
+            <form id="comment-remove-form" method="post" action="/remove_comment/<%=comment["id"]%>">
+               - <a onclick="submitParent(this);" class="comment-remove-link">Remove</a>
+            </form>
+          <% end %>
+          <ul class="list-group" style="margin: 10px 0 0 0;">
+            <% @replies[comment["id"]].each do |reply| %>
+              <li data-comment-id="<%=reply["id"]%>" class="list-group-item">
+                <% if @settings['voting_on'] == "true" %>
+                <div class="col-xs-1 col-md-1 comment-voting-container">
+                  <form class="comment-upvote-form" method="post" action="/upvote_comment/<%=reply["id"]%>">
+                    <span <% if @vote_states[reply["id"]] %>
+                      style="color:green;"
+                    <% end %> onclick="submitParent(this);" class="glyphicon glyphicon-arrow-up"></span>
+                  </form>
+                  <strong><% if reply["points"].between?(0, 9)%>&nbsp;<% end %><%=reply["points"].to_s%></strong>
+                  <form class="comment-downvote-form" method="post" action="/downvote_comment/<%=reply["id"]%>">
+                    <span <% if @vote_states[reply["id"]] == false %>
+                      style="color:red;"
+                    <% end %> onclick="submitParent(this);" class="glyphicon glyphicon-arrow-down"></span>
+                  </form>
+                </div>
+                <% end %>
+                <p class="list-group-item-text"><%=reply["body"]%></p>
+                </br>
+                <strong>Posted by <%=reply.user["name"]%> on <%=reply["created"].strftime('%Y-%m-%d')%>.</strong>
+                <% if @user == reply.user %>
+                  <form id="comment-remove-form" method="post" action="/remove_comment/<%=reply["id"]%>">
+                    <a onclick="submitParent(this);" class="comment-remove-link">Remove</a>
+                  </form>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+	<% if @user != nil %>
+    <form id="comment-post-form" method="post" action="/post_comment/<%=@video["id"]%>">
+      <div class="form-group">
+        <label for="comment-textarea">Add a comment</label>
+        <textarea class="form-control" name="body" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+	<% end %>
+  </div>
+</div>
+
 <% if @video["resources"] %>
 <div id="resources" class="row" style="margin-top: 1.5em;">
   <div class="col-xs-6 col-md-6">
@@ -104,6 +181,20 @@
 			})
       	}
       }
-    })
+    });
+  }
+
+  function replyComment(clicked)
+  {
+    var form = $('#comment-post-form');
+    var replyID = $(clicked).parent().attr('data-comment-id');
+    form.find('label').remove();
+    form.append('<input type="text" name="replyID" style="display: none;" value="' + replyID + '">');
+    $(clicked).parent().append(form);
+  }
+
+  function submitParent(clicked)
+  {
+    $(clicked).parent().submit();
   }
 </script>
