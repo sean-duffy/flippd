@@ -598,6 +598,7 @@
             {
               "title" : "Cohesion Formative Quiz",
               "id" : "habitable-programs-cohesion-formative",
+              "pass" : 2,
               "questions" : [
                 {
                   "question" : "What is cohesion?",
