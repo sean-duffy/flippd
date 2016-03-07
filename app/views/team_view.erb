@@ -1,10 +1,4 @@
-<h1> Team <%=@team["name"]%></h1>
-<ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a href="/teams/my_team">Overview</a></li>
-    <li role="presentation"><a href="/teams/member_badges">Individual Badges</a></li>
-    <li role="presentation"><a href="/teams/team_badges">Team Badges </a><li>
-<ul>
-
+<%= erb :team_nav %>
 <div id="team" class="row" style="padding-bottom: 45px;">
     <div class="col-md-6">
         <h3> Team Members </h3>
