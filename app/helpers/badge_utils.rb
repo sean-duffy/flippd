@@ -20,6 +20,16 @@ module BadgeUtils
         return badges
      end
 
+    def self.get_badges_for_resource(res_id, badges)
+        ret = []
+        badges.each do |badge|
+            if self.triggers(res_id, badge)
+                ret.push(badge)
+            end
+        end
+        return ret
+    end
+
     def self.is_any_trigger(page_id, badges)
         badges.each do |badge|
             if self.triggers(page_id, badge)
