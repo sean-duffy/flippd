@@ -65,7 +65,6 @@
     </table>
 <% end %>
 
-<br><br><br>
 <h2> Lectures </h2>
 <%@headings[1]="Lecture Watched"%>
 <% write_table("videos", @video_total, @video_knowledge_total, @video_badge_total) %>
@@ -74,4 +73,3 @@
 <h2> Formatives </h2>
 <%@headings[1]="Formative Passed"%>
 <% write_table("formative", @quiz_total, @quiz_knowledge_total, @quiz_badge_total) %>
-<br><br>
