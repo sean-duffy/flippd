@@ -61,6 +61,8 @@ class Flippd < Sinatra::Application
                 end
             end
         end
+        # Output something so that the AJAX knows we are done
+        "done"
     end
 
 end

@@ -19,7 +19,10 @@ module GeneralUtils
 	end
 
 	def display_notification(name, title, text)
-		# Displays a flash notification to the user
+                if (flash[:notification] == nil)
+                    flash[:notification] = {}
+                end
+                # Displays a flash notification to the user
 		flash[:notification][name] = {"title" => title, "text" => text}
 	end
 
