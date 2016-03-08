@@ -18,10 +18,6 @@ class Flippd < Sinatra::Application
         @phases = load_phases(@module)
         @badges = BadgeUtils.load_badges(@module)
         @teams = TeamUtils.load_teams(@module)
-        
-        if !(flash[:notification])
-        	flash[:notification] = {}
-        end
     end
 
     get '/' do

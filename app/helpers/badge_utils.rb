@@ -107,8 +107,12 @@ module BadgeUtils
         return Badge.count(:user_id => user_id)
     end
 
-    def self.get_date_earned(user_id, badge)
-        match = Badge.first(:user_id =>user_id, :json_id => badge["id"])
+    def self.get_date_earned(owner, badge)
+        if badge.is_a?(Badge)
+            match = Badge.first(:user_id => owner, :json_id => badge["id"])
+        else
+            match = TeamBadge.first(:team_name => owner, :json_id => badge["id"])
+        end
         return match.date
     end
 
