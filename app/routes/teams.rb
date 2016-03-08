@@ -43,6 +43,7 @@ class Flippd < Sinatra::Application
         # Sum member badges from the array of member hashes
         @member_badges = TeamUtils.count_member_badges(@members)
         @team_badge_count = 0
+        @page = 'my_team'
         erb :team_view
     end
 
@@ -51,6 +52,7 @@ class Flippd < Sinatra::Application
         @members = TeamUtils.get_members(@team)
         @member_badges = TeamUtils.count_member_badges(@members)
         @badge_count = @badges.count
+        @page = 'member_badges'
         erb :team_member_badges
     end
 
@@ -70,6 +72,7 @@ class Flippd < Sinatra::Application
             end
         end
 
+        @page = 'team_badges'
         erb :team_badges
     end
 
@@ -180,6 +183,7 @@ class Flippd < Sinatra::Application
         @progress_good = @@progress_good
         @progress_bad = @@progress_bad
         @progress_na = @@progress_na
+        @page = 'team_progress'
         erb :team_progress
     end
 

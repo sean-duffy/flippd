@@ -1,7 +1,28 @@
 <h1> Team <%=@team["name"]%></h1>
 <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a href="/teams/my_team">Overview</a></li>
-    <li role="presentation"><a href="/teams/member_badges">Individual Badges</a></li>
-    <li role="presentation"><a href="/teams/team_badges">Team Badges </a></li>
-    <li role="presentation"><a href="/teams/team_progress">Team Progression</a></li>
+
+    <li role="presentation" 
+    <% if @page == 'my_team' %>
+        class="active"
+    <% end %>
+    ><a href="/teams/my_team">Overview</a></li>
+
+    <li role="presentation"
+    <% if @page == 'member_badges' %>
+        class="active"
+    <% end %>
+    ><a href="/teams/member_badges">Individual Badges</a></li>
+
+    <li role="presentation"
+    <% if @page == 'team_badges' %>
+        class="active"
+    <% end %>
+    ><a href="/teams/team_badges">Team Badges </a></li>
+
+    <li role="presentation"
+    <% if @page == 'team_progress' %>
+        class="active"
+    <% end %>    
+    ><a href="/teams/team_progress">Team Progression</a></li>
+
 <ul>
