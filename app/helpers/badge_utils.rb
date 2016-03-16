@@ -107,12 +107,13 @@ module BadgeUtils
         return Badge.count(:user_id => user_id)
     end
 
+    def self.get_team_date_earnt(owner, badge)
+        match = TeamBadge.first(:team_name => owner, :json_id => badge["id"])
+        return match.date
+    end
+
     def self.get_date_earned(owner, badge)
-        if badge.is_a?(Badge)
-            match = Badge.first(:user_id => owner, :json_id => badge["id"])
-        else
-            match = TeamBadge.first(:team_name => owner, :json_id => badge["id"])
-        end
+        match = Badge.first(:user_id => owner, :json_id => badge["id"])
         return match.date
     end
 
@@ -151,7 +152,6 @@ module BadgeUtils
     def self.check_team_result_req(user_id, badge, teams)
         team = TeamUtils.get_team_for_user(user_id, teams)
         if TeamUtils.team_has_logged_in(team) then
-            puts "logged"
             team_members = TeamUtils.get_users_for_team(team)
 
             team_has_requirements = true
@@ -177,7 +177,6 @@ module BadgeUtils
     end
 
     def self.trigger_badges(user_id, resource_id, badges, teams)
-        puts(resource_id) 
         awards = []
         badges_earnt = 0
         user = User.get(user_id)

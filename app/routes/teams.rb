@@ -68,7 +68,7 @@ class Flippd < Sinatra::Application
         @badges.each do |badge|
             if BadgeUtils.team_has_badge(@team["name"], badge)
                 #add date earnt to badge data struct
-                badge["date"] = BadgeUtils.get_date_earned(@team["name"], badge).strftime("%A %-d %B %Y")
+                badge["date"] = BadgeUtils.get_team_date_earnt(@team["name"], badge).strftime("%A %-d %B %Y")
                 @earnt.push(badge)
             else
                 @not_earnt.push(badge)
