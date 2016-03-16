@@ -31,7 +31,6 @@ class Flippd < Sinatra::Application
 
 	post '/quizzes/:pos' do
 		pos = params["pos"].to_i
-		@phase = @phases.first # FIXME
 		@post  = params[:post]
 		#if @post = nil
 		#	@post = {}
