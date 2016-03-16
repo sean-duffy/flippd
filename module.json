@@ -869,6 +869,9 @@
                     {"name":"Tyler Bevan", "email":"tbd506@york.ac.uk"},
                     {"name":"Sean Duffy", "email":"sld537@york.ac.uk"}
                    ]
+        },
+        {"name":"Developer",
+         "members":[{"name":"Test Test", "email":"test@york.ac.uk"}]
         }
     ]
 }
