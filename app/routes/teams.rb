@@ -111,7 +111,7 @@ class Flippd < Sinatra::Application
             @initials.push(get_user_initials(member["name"]))
         end
         
-        # Number of videos watched for eac member
+        # Number of videos watched for each member
         @video_total = Array.new(@team["members"].length) {|i| 0}
         # Number of quizzes passed for each member
         @quiz_total = Array.new(@team["members"].length) {|i| 0}
