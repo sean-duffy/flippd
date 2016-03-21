@@ -89,8 +89,6 @@ class Flippd < Sinatra::Application
         # N/A hash for a topic with no formatives
         null_formative = Hash["title"=>"-", "progress"=> null_progress, "team_knowledge"=>@@progress_na, "team_badge"=>@@progress_na]
 
-        @headings = ["Subject", "", "Progress"]
-        @progress_headings = ["Team Knowledge", "Team Badge"]
         #Half the team, rounding up, must watch a video/pass a quiz to mark off team knowledge
         team_knowledge_min = @team["members"].length.fdiv(2).ceil
         @progress = Hash.new

@@ -1,26 +1,24 @@
 <%= erb :team_nav %>
 
-<%@col_width = (@initials.length)+(@progress_headings.length)+1 %>
+<%@col_width = (@initials.length)+3 %>
 <% def style(prog) %>
     <% return prog == @progress_good ? "success" : prog == @progress_bad ? "danger" : "" %>
 <% end %>
 
-<% def write_table(resource_key, user_totals, knowledge_total, badge_total) %>
+<% def write_table(resource_key, user_totals, knowledge_total, badge_total, action) %>
     <table class="table table-condensed table-bordered">
         <tr>
         <th>&nbsp;</th>
-        <%@headings[1..@headings.length-1].each do |head|%>
-            <th colspan=<%=@initials.length%>> <center><%=head%></center></th>
-        <%end%>
+        <th colspan=<%=@initials.length%>> <center><%=action%></center></th>
+        <th colspan=<%=@initials.length%>> <center>Progress</center></th>
         </tr>
         <tr>
-            <th><center><%=@headings[0]%></center></th>
+            <th><center>Subject</center></th>
             <%@initials.each do |user|%>
                 <th><center><%=user%></center></th>
             <%end%>
-            <%@progress_headings.each do |head|%>
-                <th><center><%=head%></center></th>
-            <%end%>
+            <th><center>Team Knowledge</center></th>
+            <th><center>Team Badge</center></th>
         </tr>
 
         <tbody>
@@ -66,10 +64,8 @@
 <% end %>
 
 <h2> Lectures </h2>
-<%@headings[1]="Lecture Watched"%>
-<% write_table("videos", @video_total, @video_knowledge_total, @video_badge_total) %>
+<% write_table("videos", @video_total, @video_knowledge_total, @video_badge_total, "Lecture Watched") %>
 
 <br>
 <h2> Formatives </h2>
-<%@headings[1]="Formative Passed"%>
-<% write_table("formative", @quiz_total, @quiz_knowledge_total, @quiz_badge_total) %>
+<% write_table("formative", @quiz_total, @quiz_knowledge_total, @quiz_badge_total, "Formative Passed") %>
