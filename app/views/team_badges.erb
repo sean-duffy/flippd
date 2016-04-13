@@ -1,0 +1,45 @@
+<%= erb :team_nav %>
+
+<div class="row">
+  <div class="col-md-12" style="padding-top: 15px;">
+    <p class="lead">
+        Team Badge Progress: <%=@earnt.length%>/<%=@total_badges%>
+    </p>
+    <p>These are the badges everyone on your team has earned!</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div id="badges" class="list-group">
+      <%@earnt.each do |badge|%>
+        <div class="list-group-item list-group-item-success">
+            <div class="col-xs-3 col-md-2">
+                <img src="<%=badge["img"]%>">
+            </div>
+            <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
+            <p class="list-group-item-text"><%=badge["description"]%></p>
+            <p class="list-group-item-text">Earnt: <%=badge["date"]%></p>
+            <% if @user.lecturer %>
+                <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
+            <% end %>
+        </div>
+      <%end%>
+
+      <%@not_earnt.each do |badge|%>
+        <div class="list-group-item">
+            <div class="col-xs-3 col-md-2">
+                <img src="<%=badge["img"]%>">
+            </div>
+            <h4 class="list-group-item-heading"><%=badge["title"]%></h4>
+            <p class="list-group-item-text"><%=badge["description"]%></p>
+            <p class="list-group-item-text">Not yet achieved</p>
+            <% if @user.lecturer %>
+                <p class="list-group-item-text">Earnt by <%=badge["count"]%> Students</p>
+            <% end %>
+        </div>
+      <%end%>
+
+    </div>
+  </div>
+</div>

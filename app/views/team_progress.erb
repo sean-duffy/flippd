@@ -1,0 +1,71 @@
+<%= erb :team_nav %>
+
+<%@col_width = (@initials.length)+3 %>
+<% def style(prog) %>
+    <% return prog == @progress_good ? "success" : prog == @progress_bad ? "danger" : "" %>
+<% end %>
+
+<% def write_table(resource_key, user_totals, knowledge_total, badge_total, action) %>
+    <table class="table table-condensed table-bordered">
+        <tr>
+        <th>&nbsp;</th>
+        <th colspan=<%=@initials.length%>> <center><%=action%></center></th>
+        <th colspan=<%=@initials.length%>> <center>Progress</center></th>
+        </tr>
+        <tr>
+            <th><center>Subject</center></th>
+            <%@initials.each do |user|%>
+                <th><center><%=user%></center></th>
+            <%end%>
+            <th><center>Team Knowledge</center></th>
+            <th><center>Team Badge</center></th>
+        </tr>
+
+        <tbody>
+        <%@progress.each do |title, phase| %>
+            <% if phase["topics"].empty? %>
+                <% next %>
+            <% end %>
+            <tr class="info">
+                <th colspan=<%=@col_width%>><center><%=title%></center></th>
+            </tr>
+            <%phase["topics"].each do |topic| %>
+                <tr class="info">
+                    <th><%=topic["title"]%></th>                
+                    <th colspan=<%=@col_width-1%></th>
+                </tr>
+                <%topic[resource_key].each do |resource| %>
+                    <tr>
+                        <td><%=resource["title"]%></td>
+                        <% resource["progress"].each do |val| %>
+                            <td class=<%=style(val)%>><center><%=val%></center></td>
+                        <% end %>
+                        <% val = resource["team_knowledge"] %>
+                        <td class=<%=style(val)%>><center><%=val%></center></td>
+                        <% val = resource["team_badge"] %>
+                        <td class=<%=style(val)%>><center><%=val%></center></td>
+                    </tr>
+                <%end%>
+            <%end%>
+        <% end %>
+        <tr class="info">
+            <th colspan=<%=@col_width%>><center>Overall Progression</center></th>
+        </tr>
+        <tr>
+            <td></td>
+            <% user_totals.each do |val| %>
+                <td><center><%=val%></center></td>
+            <%end%>
+            <td><center><%=knowledge_total%><center></td>
+            <td><center><%=badge_total%></center></td>
+        </tr>
+        </tbody>
+    </table>
+<% end %>
+
+<h2> Lectures </h2>
+<% write_table("videos", @video_total, @video_knowledge_total, @video_badge_total, "Lecture Watched") %>
+
+<br>
+<h2> Formatives </h2>
+<% write_table("formative", @quiz_total, @quiz_knowledge_total, @quiz_badge_total, "Formative Passed") %>

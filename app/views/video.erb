@@ -167,19 +167,16 @@
       {
       	//Set the checkbox as disabled so we can't change it
       	$(checkbox).attr("disabled", true);
-      	
-      	//If we have notifications to display then do an AJAX call do get the HTML to display
-      	if (data > 0)
-      	{
-      		$.ajax({
-			  type: 'GET',
-			  url: '/notification_alert',
-			  success: function(data)
-			  {
-				$('#notification').html(data);
-			  }
-			})
-      	}
+
+        //Do an AJAX call do get the HTML to display notifications
+	$.ajax({
+		  type: 'GET',
+		  url: '/notification_alert',
+		  success: function(data)
+		  {
+			$('#notification').html(data);
+		  }
+		})
       }
     });
   }

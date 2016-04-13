@@ -20,7 +20,7 @@
         <% end %>
     </div>
 </div>
-<h1 data-flippd-phase="<%= @phase["id"]%>"><%= @quiz["title"] %></h1>
+<h1><%= @quiz["title"] %></h1>
 <form action="/quizzes/<%= @quiz["pos"] %>" method="post">
   <% @quiz["questions"].each_with_index do |question, question_num| %>
     <div class="form-group">
