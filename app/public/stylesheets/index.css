@@ -30,3 +30,25 @@ body {
   margin-bottom: 0px;
   margin-top: 20px;
 }
+
+/* Comment styles */
+.glyphicon.glyphicon-arrow-up, .glyphicon.glyphicon-arrow-down {
+    color: #b4b0b9;
+}
+
+.glyphicon.glyphicon-arrow-up:hover, .glyphicon.glyphicon-arrow-down:hover {
+    color: black;
+}
+
+.comment-voting-container {
+    padding: 0;
+    width: 20px;
+}
+
+#comment-remove-form, #comment-upvote-form, #comment-downvote-form {
+    display: inline-block;
+}
+
+#comment-post-form {
+    width: 100%;
+}

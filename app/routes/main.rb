@@ -3,10 +3,11 @@ require 'json'
 require 'sinatra/base'
 require './app/helpers/badge_utils'
 require './app/helpers/phase_utils'
+require './app/helpers/comment_utils'
 require './app/helpers/general_utils'
 
 class Flippd < Sinatra::Application
-    helpers BadgeUtils, PhaseUtils, GeneralUtils
+  helpers BadgeUtils, PhaseUtils, CommentUtils, GeneralUtils
 
     before do
         @session = session
@@ -18,6 +19,11 @@ class Flippd < Sinatra::Application
         @phases = load_phases(@module)
         @badges = BadgeUtils.load_badges(@module)
         @teams = TeamUtils.load_teams(@module)
+		@settings = @module['settings']
+
+		if !(flash[:notification])
+        	flash[:notification] = {}
+        end
     end
 
     get '/' do
@@ -34,8 +40,7 @@ class Flippd < Sinatra::Application
         erb :phase
     end
 
-    get '/notification_alert' do
-      	erb :notification_alert, :layout => false
-    end
-    
+	get '/notification_alert' do
+    	erb :notification_alert, :layout => false
+	end
 end

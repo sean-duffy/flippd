@@ -859,6 +859,7 @@
             "img":"/images/zoidberg.png"
         }
     ],
+
     "lecturers": ["test@test.ac.uk", "louis.rose@york.ac.uk"],
     "teams":[
         {"name":"Anderton",
@@ -873,5 +874,11 @@
         {"name":"Developer",
          "members":[{"name":"Test Test", "email":"test@york.ac.uk"}]
         }
-    ]
+    ],
+
+  "settings": {
+    "replies_on": "true",
+    "voting_on": "true"
+  }
+
 }
