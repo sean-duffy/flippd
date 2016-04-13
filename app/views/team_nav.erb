@@ -1,0 +1,14 @@
+<% def active(link) %>
+    <% # A nice way to set the active class on the current link in the team nav %>
+    <% return @request.path_info == link ? "active" : "" %>
+<% end %>
+
+<h1> Team <%=@team["name"]%></h1>
+<div class="row">
+<ul class="nav nav-tabs">
+    <li role="presentation" class=<%=active("/teams/my_team")%>>      <a href="/teams/my_team">Overview</a></li>
+    <li role="presentation" class=<%=active("/teams/member_badges")%>><a href="/teams/member_badges">Individual Badges</a></li>
+    <li role="presentation" class=<%=active("/teams/team_badges")%>>  <a href="/teams/team_badges">Team Badges </a></li>
+    <li role="presentation" class=<%=active("/teams/team_progress")%>><a href="/teams/team_progress">Team Progression</a></li>
+<ul>
+</div>

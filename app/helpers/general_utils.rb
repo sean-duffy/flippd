@@ -19,7 +19,10 @@ module GeneralUtils
 	end
 
 	def display_notification(name, title, text)
-		# Displays a flash notification to the user
+                if (flash[:notification] == nil)
+                    flash[:notification] = {}
+                end
+                # Displays a flash notification to the user
 		flash[:notification][name] = {"title" => title, "text" => text}
 	end
 
@@ -29,4 +32,11 @@ module GeneralUtils
 		n = get_by_pos(phases, pos+1)
 		return p, n
 	end
+
+    def get_user_initials(name)
+        parts = name.split
+        initials = parts.first[0]
+        initials += parts.last[0] if parts.length > 1
+        return initials
+    end
 end

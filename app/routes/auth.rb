@@ -1,6 +1,9 @@
 require 'omniauth'
+require './app/helpers/team_utils'
 
 class Flippd < Sinatra::Application
+  helpers TeamUtils
+
   if ENV['AUTH'] == "GOOGLE"
     require 'omniauth-google-oauth2'
     use OmniAuth::Strategies::GoogleOauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET']
@@ -14,6 +17,7 @@ class Flippd < Sinatra::Application
     @user = nil
     @user = User.get(session[:user_id]) if session.key?(:user_id)
     @lecturers = @module["lecturers"]
+    @teams = TeamUtils.load_teams(@module)
   end
 
   route :get, :post, '/auth/:provider/callback' do
@@ -22,6 +26,12 @@ class Flippd < Sinatra::Application
     user = User.first_or_create({ email: email }, { name: auth_hash.info.name})
     is_lecturer = @lecturers.include? email
     user.update(:lecturer => is_lecturer)
+    team = TeamUtils.get_team_from_email(email, @teams)
+    if team then
+        if team != nil
+            user.update(:team_name => team["name"])
+        end
+    end
     session[:user_id] = user.id
 
     origin = env['omniauth.origin'] || '/'

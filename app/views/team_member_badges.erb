@@ -1,0 +1,23 @@
+<%= erb :team_nav %>
+
+<div id="team" class="row" style="padding-bottom: 45px;">
+    <div class="col-md-6">
+        <h3> Team Members </h3>
+    </div>
+    <div class="col-md-6">
+        <h3> Individual Badge Progress </h3>
+    </div>
+    <% @members.each do |member| %>
+        <% percentage= member["badges"].fdiv(@badge_count) * 100 %>
+        <div class="col-md-6"><%=member["name"]%></div>
+        <div class="col-md-6">
+            <div class="progress">
+                <div class="progress-bar" role="progresbar" aria-valuenow="<%=member["badges"]%>" aria-valuemin="0" aria-valuemax="<%=@badge_count%>"
+                    style="min-width: 2em; width:<%=percentage%>%">
+                    <%=member["badges"]%>
+                </div>
+            </div>
+        </div>
+        
+    <%end%>
+<div>
